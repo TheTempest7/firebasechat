@@ -10,6 +10,7 @@ import { getDatabase, ref,child, set,push,get, onValue} from "firebase/database"
 import { doc, onSnapshot } from "firebase/firestore";
 import * as functions from 'firebase/functions';
 import { type } from "@testing-library/user-event/dist/type";
+import { motion } from "framer-motion";
 
 // Listens for new messages added to /messages/:pushId/original and creates an
 // uppercase version of the message to /messages/:pushId/uppercase
@@ -109,13 +110,14 @@ const Chat= React.memo(()=>{
       Scroll.current=true;
     }
     else{
-      setTimeout(()=>{scroller()},500)
+      setTimeout(()=>{scroller()},1500)
     }
   })
   return (
     curtain
     ?
-    <Box sx={{display:'flex',flexDirection:'column',alignItems:'center'}}>
+    <motion.div className="page" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0,transition:{duration:1}}} >
+    <Box  sx={{display:'flex',flexDirection:'column',alignItems:'center'}}>
     <Button onClick={out} >Log out</Button>
     <div onClick={()=>{console.log(chatData);}}>Chat</div> 
     <div sx={styles.container}>
@@ -167,8 +169,10 @@ const Chat= React.memo(()=>{
         </Paper>
     </div>
     </Box>
+    </motion.div>
+
     : 
-   <></>
+    <motion.div className="pages" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0,transition:{duration:1}}}></motion.div>
 )
 })
 

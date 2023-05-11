@@ -17,3 +17,53 @@ code {
 ::-webkit-scrollbar {
 color: blue;
 }
+
+.pages{
+  position:absolute
+}
+.page-enter-active{
+  animation: fade-in 1s forwards;
+  -webkit-animation: fade-in 1s forwards;
+}
+.page-exit-active{
+  animation: fade-in 1s forwards;
+  -webkit-animation: fade-in 1s forwards;
+}
+
+@keyframes fade-in {
+  0%{
+    opacity: 0;
+    transform: translateX(-400px);
+    -webkit-transform: translateX(-400px);
+    -moz-transform: translateX(-400px);
+    -ms-transform: translateX(-400px);
+    -o-transform: translateX(-400px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+}
+}
+
+@keyframes fade-out {
+  0%{
+    opacity: 1;
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -o-transform: translateX(0px);
+}
+  100%{
+    opacity: 0;
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    -moz-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    -o-transform: translateX(100%);
+}
+}

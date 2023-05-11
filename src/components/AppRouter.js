@@ -1,18 +1,20 @@
-import { Route, Routes ,Navigate} from "react-router-dom";
+import { Route, Routes ,Navigate,useLocation} from "react-router-dom";
 import { PublicRoutes,PrivetRoutes } from "../utulity/routes";
 import Login from '../components/Login';
 import Chat from '../components/Chat';
-
+import { AnimatePresence } from "framer-motion";
 
 const AppRouter=()=>{
-
+    const location=useLocation();
     
     return(
-    <Routes>
-        <Route path='/login' element={<Login/>} />
-        <Route path='/chat'  element={<Chat />} />
-        <Route path="*"  element={<Navigate to="/login"/>}/>
-    </Routes>
+        <AnimatePresence>
+            <Routes location={location} key={location.pathname}>
+                <Route path='/login' element={<Login/>} />
+                <Route path='/chat'  element={<Chat />} />
+                <Route path="*"  element={<Navigate to="/login"/>}/>
+            </Routes>
+        </AnimatePresence>
     );
 }
 

@@ -148,7 +148,7 @@ useEffect(()=>{
           </Box>
         </Toolbar>
       </Container>
-    </AppBar>
+  </AppBar>
     <div>
     <h2>Navbar</h2>
     </div>

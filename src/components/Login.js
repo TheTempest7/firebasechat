@@ -5,6 +5,7 @@ import { Context } from "../index";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { motion } from "framer-motion";
 export const loginContext=createContext(null);
 
 const Login=()=>{
@@ -31,7 +32,7 @@ const Login=()=>{
     redirect();
   },[treshold])
     return (
-    <>Login
+    <motion.div className='page' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0,transition:{duration:1}}}>Login
     <Container>
         <Grid container={true} style={{display:'flex',
           justifyContent:'center'}} >
@@ -45,7 +46,7 @@ const Login=()=>{
             </Grid>
         </Grid>
     </Container>
-    </>
+    </motion.div>
     )
   }
   
