@@ -19,20 +19,16 @@ const Login=()=>{
   const provider=dataUser.provider;
   const login= async()=>{
     signInWithPopup(auth,provider)
-    .then((result)=>{setTreshold(result.user)})
+    .then((result)=>{navigate('/chat')})
     .then(()=>{console.log('working');})
   }
-  const redirect=()=>{
-    if(treshold){
-      navigate('/chat');
-    }
-  }
 
-  useEffect(()=>{
-    redirect();
-  },[treshold])
+
     return (
-    <motion.div className='page' initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0,transition:{duration:1}}}>Login
+    <motion.div className='page'  
+    initial={{opacity:0,translateX:'-400px',transition:{duration:1}}} 
+    animate={{opacity:1,translateX:'0px',transition:{duration:1}}} 
+    exit={{opacity:0,translateX:'400px',transition:{duration:1}}}>
     <Container>
         <Grid container={true} style={{display:'flex',
           justifyContent:'center'}} >

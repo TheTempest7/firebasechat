@@ -18,6 +18,8 @@ import { motion } from "framer-motion";
 
 
 const Chat= React.memo(()=>{
+  const [mainUseEffectTrigger,setThisTrigger]=useState(0);
+  const [firtsScroll,setFirstScroll]=useState(false);
   const {auth,db,firebaseApp}=useContext(Context);
   const [chatData,setChatData]=useState();
   const [user,setUser]=useState(true);
@@ -26,28 +28,28 @@ const Chat= React.memo(()=>{
   const Scroll=useRef();
   const donotScroll=useRef();
 
-  function control(){
-    if(!auth.currentUser){
-      navigate('/login');
-    }
-    else{
-      setCurtain(true);
-    }
-  }
+
   const updateMessages=()=>{
     onValue(starCountRef, (snapshot) => {
       const data = snapshot.val();
       data[data.length-1]['last']=true;
-      console.log('asdasdsd');
-      console.log(data);
       setChatData(data);
     });
 
   }
-  const scroller=()=>{
+  const scroller=()=>{ 
     if(Scroll.current){
-      Scroll.current?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+      Scroll.current?.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      setFirstScroll(true);
     }
+
+  }
+
+  const bodyChat= async()=>{
+    console.log('working');
+    await updateMessages();
+    setTimeout(()=>{scroller();},2000);
+
   }
 
   const styles ={
@@ -90,7 +92,6 @@ const Chat= React.memo(()=>{
   };
 
   const navigate = useNavigate();
-  console.log(user);
   const out=async ()=>{
     signOut(auth)
     .then(()=>{
@@ -98,25 +99,22 @@ const Chat= React.memo(()=>{
       setUser(false);
     })
   }
-
-
   useEffect(()=>{
-    control();
-    updateMessages();
-  },[user])
-
+  bodyChat();
+  },[mainUseEffectTrigger])
+  
   useEffect(()=>{
-    if(!Scroll.current){
-      Scroll.current=true;
-    }
-    else{
-      setTimeout(()=>{scroller()},1500)
-    }
+    scroller();
+  },[firtsScroll])
+  useEffect(()=>{
+    setFirstScroll(true);
   })
+
   return (
-    curtain
-    ?
-    <motion.div className="page" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0,transition:{duration:1}}} >
+    <motion.div className="page" 
+    initial={{opacity:0,translateX:'400px',transition:{duration:1}}} 
+    animate={{opacity:1,translateX:'0px',transition:{duration:1}}} 
+    exit={{opacity:0,translateX:'-400px',transition:{duration:1}}} >
     <Box  sx={{display:'flex',flexDirection:'column',alignItems:'center'}}>
     <Button onClick={out} >Log out</Button>
     <div onClick={()=>{console.log(chatData);}}>Chat</div> 
@@ -125,8 +123,8 @@ const Chat= React.memo(()=>{
           <Paper id="style-1" sx={styles.messagesBody}>
             {chatData?.map((i,index)=>{
               if(i.last===true && auth.currentUser.uid && i.id===auth.currentUser.uid){
-              console.log('last');
-              return <div ref={Scroll}  key={index} > <MessageRight 
+              return <div ref={Scroll}  key={index} > 
+              <MessageRight 
               message={i.message}
               timestamp={i.time}
               photoURL="https://lh3.googleusercontent.com/a-/AOh14Gi4vkKYlfrbJ0QLJTg_DLjcYyyK7fYoWRpz2r4s=s96-c"
@@ -165,14 +163,11 @@ const Chat= React.memo(()=>{
             })
             }
           </Paper>
-          <TextInput auth={auth}  db={db}  />
+          <TextInput auth={auth} triger={mainUseEffectTrigger} setTriger={setThisTrigger} db={db}  />
         </Paper>
     </div>
     </Box>
     </motion.div>
-
-    : 
-    <motion.div className="pages" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0,transition:{duration:1}}}></motion.div>
 )
 })
 

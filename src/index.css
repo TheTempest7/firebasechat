@@ -18,7 +18,7 @@ code {
 color: blue;
 }
 
-.pages{
+/* .pages{
   position:absolute
 }
 .page-enter-active{
@@ -66,4 +66,4 @@ color: blue;
     -ms-transform: translateX(100%);
     -o-transform: translateX(100%);
 }
-}
+} */
