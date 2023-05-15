@@ -8,16 +8,11 @@ import { doc, onSnapshot } from "firebase/firestore";
 import date from 'date-and-time';
 import moment from 'moment/moment';
 
-// const usersRef = ref.child('users');
-// const hopperRef = usersRef.child('gracehop');
-// hopperRef.update({
-//   'nickname': 'Amazing Grace'
-// });\
-// const unsub = onSnapshot(doc(db, "messages", "auth.currentUser.uid"), (doc) => {
-//     console.log("Current data: ", doc.data());
-// });
-export const TextInput = ({input,setInput,auth,firebaseApp,db}) => {
-    const [messages,loading]=useCollection()
+
+export const TextInput = ({auth,firebaseApp,db,setTriger}) => {
+    const [input,setInput]=useState('');
+    const [validateInput,setValidInput]=useState('');
+    const [messages,loading]=useCollection();
     const styles = 
 {
     wrapForm : {
@@ -34,24 +29,41 @@ export const TextInput = ({input,setInput,auth,firebaseApp,db}) => {
         margin:'10px 0'
     },
     }
-    const sender=()=>{
-        console.log(input);
-        console.log(auth.currentUser.uid);
-        console.log(moment().format('YY'));
-        console.log(moment().format('MMM'));
-        console.log(moment().format('Do'));
-        console.log(moment().format('HH'));
+    let validate='';
+    const checkWhiteSpaceOnInput=(i)=>{
+        let arr=i.split(' ');
+        arr.forEach((el,i) => {
+            let res;
+            if(el.length>31){
+                while(el.length>=31){
+                    res?res=res+' '+el.slice(0,31)
+                    : res=el.slice(0,31);
+                    el=el.slice(31);
+                    console.log(el.length);
+                }
+                arr.splice(i,1);
+                arr.splice(i,0,res);
+            }
+        });
+        i=arr.join(' ');
+        validate=i;
+    }
+    const sender=(e)=>{
+        if(!input){
+            e.preventDefault();
+        }
+        else{
             const dbRef = ref(getDatabase(firebaseApp));
             get(child(ref(getDatabase(firebaseApp)), `messages`)).then((snapshot) => {
                 let us=snapshot.val();
-                console.log(typeof us, us);
                 if(typeof us==='string'){
                     us=[];
                 }
                 let currUse=auth.currentUser.uid;
+                checkWhiteSpaceOnInput(input);
                 us.push({
                         name:auth.currentUser.displayName,
-                        message:input,
+                        message:validate,
                         id:currUse,
                         time:{
                             year:moment().format('YY'),
@@ -67,6 +79,8 @@ export const TextInput = ({input,setInput,auth,firebaseApp,db}) => {
                 console.error(error);
             });
         setInput('');
+        setTriger((prev)=>prev+1);
+        }  
     }
 
     return (
@@ -76,9 +90,10 @@ export const TextInput = ({input,setInput,auth,firebaseApp,db}) => {
                 id="standard-text"
                 label="Tapping"
                 sx={styles.wrapText}
-                //margin="normal"
+                multiline
+                maxRows={4}
             />
-            <Button onClick={sender}  variant="contained" color="primary" sx={styles.button}>
+            <Button onClick={(e)=>{sender(e)}}  variant="contained" color="primary" sx={styles.button}>
                 Send
             </Button>
             </form>

@@ -8,7 +8,8 @@ export const MessageLeft = (props) => {
   const styles =
 {
     messageRow: {
-      display: "flex"
+      display: 'flex',
+      flexWrap: 'wrap',
     },
     messageRowRight: {
       display: "flex",
@@ -16,12 +17,12 @@ export const MessageLeft = (props) => {
     },
     messageBlue: {
       position: "relative",
-      marginLeft: "20px",
+      marginTop: '-7px',
+      marginLeft: "45px",
       marginBottom: "10px",
       padding: "10px",
       backgroundColor: "#A8DDFD",
-      width: "60%",
-      height: "50px",
+      width: "70%",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
       border: "1px solid #97C6E3",
@@ -29,6 +30,7 @@ export const MessageLeft = (props) => {
       "&::after": {
         content: "''",
         position: "absolute",
+        zIndex:1,
         width: "100px",
         height: "50px",
         borderTop: "15px solid #A8DDFD",
@@ -40,9 +42,10 @@ export const MessageLeft = (props) => {
       "&:before": {
         content: "''",
         position: "absolute",
+        zIndex:1,
         width: "100px",
         height: "50px",
-        borderTop: "17px solid #97C6E3",
+        borderTop: "16px solid #97C6E3",
         borderLeft: "16px solid transparent",
         borderRight: "16px solid transparent",
         top: "-1px",
@@ -84,18 +87,20 @@ export const MessageLeft = (props) => {
         right: "-17px"
       }
     },
-
-    messageContent: {
-      padding: 0,
-      margin: 0
+    contentFather:{
+      position:'relative',
+      zIndex:3
+    },
+    messageContent: { 
+    position: 'relative',
+    zIndex: 4,
     },
     messageTimeStampRight: {
-      position: "absolute",
       fontSize: ".85em",
       fontWeight: "300",
       marginTop: "10px",
-      bottom: "-3px",
-      right: "5px"
+      display: 'flex',
+      justifyContent: 'end',
     },
 
     orange: {
@@ -111,27 +116,31 @@ export const MessageLeft = (props) => {
       height:'30px'
     },
     displayName: {
-      marginLeft: "20px"
+      marginLeft: '20px',
+      flexBasis: '50%'
     }
   };
   const message = props.message ? props.message : "no message";
   const timestamp = props.timestamp ? props.timestamp : "";
   const photoURL = props.photoURL ? props.photoURL : "dummy.js";
-  const displayName = props.displayName ? props.displayName : "名無しさん";
+  const displayName = props.name ? props.name : "名無しさん";
   return (
       <Box sx={styles.messageRow}>
         <Avatar
           alt={displayName}
           sx={styles.orange}
           src={photoURL}/>
-        <Box>
+
           <Box sx={styles.displayName}>{displayName}</Box>
           <Box sx={styles.messageBlue}>
-            <Box>
-              <Box sx={styles.messageContent}>{message}</Box>
+            <Box sx={styles.messageContent}>{message}</Box>
+            <Box  sx={styles.messageTimeStampRight} >
+              {timestamp 
+              ? 
+              timestamp.hour+':'+timestamp.minute+'  '+timestamp.day+' '+timestamp.month
+              : <></>
+              }
             </Box>
-            <Box sx={styles.messageTimeStampRight}>{timestamp}</Box>
-          </Box>
         </Box>
       </Box>
   );
@@ -184,13 +193,15 @@ export const MessageRight = (props) => {
       }
     },
     messageOrange: {
+      '@media(max-width:440px)':{
+        with:'90%'
+      },
       position: "relative",
       marginRight: "20px",
       marginBottom: "10px",
       padding: "10px",
       backgroundColor: "#f8e896",
-      width: "60%",
-      //height: "50px",
+      width: "70%",
       textAlign: "left",
       font: "400 .9em 'Open Sans', sans-serif",
       border: "1px solid #dfd087",
@@ -221,15 +232,15 @@ export const MessageRight = (props) => {
 
     messageContent: {
       padding: 0,
-      margin: 0
+      margin: 0,
+      overflow: 'hidden'
     },
     messageTimeStampRight: {
-      position: "absolute",
       fontSize: ".85em",
       fontWeight: "300",
       marginTop: "10px",
-      bottom: "-3px",
-      right: "5px"
+      display: 'flex',
+      justifyContent: 'end',
     },
 
     orange: {
@@ -247,10 +258,10 @@ export const MessageRight = (props) => {
   const timestamp = props.timestamp ? props.timestamp : "";
   return (
     <Box sx={styles.messageRowRight}>
-      <Box sx={styles.messageOrange}>
+      <Box  sx={styles.messageOrange}>
         <Box sx={styles.messageContent}>{message}</Box>
         <Box sx={styles.messageTimeStampRight}>
-        {timestamp.hour+':'+timestamp.minute+'  '+timestamp.day+' '+timestamp.month}
+        {timestamp.hour+':'+timestamp.minute+' '+timestamp.day+' '+timestamp.month}
         </Box>
       </Box>
     </Box>

@@ -5,6 +5,7 @@ import { Context } from "../index";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router";
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { motion } from "framer-motion";
 export const loginContext=createContext(null);
 
 const Login=()=>{
@@ -18,24 +19,19 @@ const Login=()=>{
   const provider=dataUser.provider;
   const login= async()=>{
     signInWithPopup(auth,provider)
-    .then((result)=>{setTreshold(result.user)})
+    .then((result)=>{navigate('/chat')})
     .then(()=>{console.log('working');})
   }
-  const redirect=()=>{
-    if(treshold){
-      navigate('/chat');
-    }
-  }
 
-  useEffect(()=>{
-    redirect();
-  },[treshold])
     return (
-    <>Login
+    <motion.div className='page'  
+    initial={{opacity:0,translateX:'-400px',transition:{duration:1}}} 
+    animate={{opacity:1,translateX:'0px',transition:{duration:1}}} 
+    exit={{opacity:0,translateX:'400px',transition:{duration:1}}}>
     <Container>
         <Grid container={true} style={{display:'flex',
           justifyContent:'center'}} >
-            <Grid container={true} style={{width:400,background:'lightgray'}}
+            <Grid container={true} style={{width:400,background:'lightgray',marginTop:'10vh',borderRadius:'20px'}}
             alignItems={'center'} direction={'column'}>
               <Box p={5}>
                 <Button onClick={login}  variant={'outlined'}>
@@ -45,7 +41,7 @@ const Login=()=>{
             </Grid>
         </Grid>
     </Container>
-    </>
+    </motion.div>
     )
   }
   
