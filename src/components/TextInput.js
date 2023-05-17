@@ -1,18 +1,12 @@
 import React from 'react'
 import {  Button, TextField  } from '@mui/material';
 import { useState} from 'react';
-import { useCollection } from 'react-firebase-hooks/firestore';
-import { UpdateData, updateDoc } from 'firebase/firestore';
-import { getDatabase, ref,child, set,push,get} from "firebase/database";
-import { doc, onSnapshot } from "firebase/firestore";
-import date from 'date-and-time';
+import { getDatabase, ref,child, set,get} from "firebase/database";
 import moment from 'moment/moment';
 
 
-export const TextInput = ({auth,firebaseApp,db,setTriger}) => {
+export const TextInput = ({auth,firebaseApp,setThisTriger}) => {
     const [input,setInput]=useState('');
-    const [validateInput,setValidInput]=useState('');
-    const [messages,loading]=useCollection();
     const styles = 
 {
     wrapForm : {
@@ -53,7 +47,6 @@ export const TextInput = ({auth,firebaseApp,db,setTriger}) => {
             e.preventDefault();
         }
         else{
-            const dbRef = ref(getDatabase(firebaseApp));
             get(child(ref(getDatabase(firebaseApp)), `messages`)).then((snapshot) => {
                 let us=snapshot.val();
                 if(typeof us==='string'){
@@ -79,7 +72,7 @@ export const TextInput = ({auth,firebaseApp,db,setTriger}) => {
                 console.error(error);
             });
         setInput('');
-        setTriger((prev)=>prev+1);
+        setThisTriger((prev)=>prev+1);
         }  
     }
 

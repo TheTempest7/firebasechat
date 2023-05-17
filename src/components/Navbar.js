@@ -54,16 +54,17 @@ useEffect(()=>{
               </Button>
               }
           </Box> */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' },justifyContent:'flex-end' }}> 
+          <Box sx={{ flexGrow: 1, display: 'flex',justifyContent:'flex-end' }}> 
           { pathname==='/login' ?           
               <Button onClick={(e)=>{checkAuth(e)}} variant="outlined" style={{ border: '2px solid',marginRight:'5vw' }}
                 sx={{ my: 2, color: 'white', display: 'block' }}
-                component={Link} to={data?'/chat':''}
+                component={Link} to={'/chat'}
               >
                 Chat
               </Button> 
               :  
               <Button  variant="outlined" style={{ border: '2px solid',marginRight:'5vw',color: 'white' }}
+              sx={{ my: 2, color: 'white', display: 'block' }}
                 component={Link} to={'/login'}
                 > Login
               </Button>
