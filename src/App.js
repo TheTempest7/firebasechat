@@ -7,7 +7,7 @@ import { Context } from '.';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Loader from './components/loader/Loader';
 const AppRouter=React.lazy(()=>import('./components/AppRouter'));
-const Navbar=React.lazy(()=>import('./components/Navbar'));
+const Navbar=React.lazy(()=>import('./components/Navbar/Navbar'));
 
 
 function App() {

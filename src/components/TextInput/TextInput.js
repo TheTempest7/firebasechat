@@ -8,7 +8,7 @@ import moment from 'moment/moment';
 export const TextInput = ({auth,firebaseApp,setThisTriger}) => {
     const [input,setInput]=useState('');
     const styles = 
-{
+    {
     wrapForm : {
         display: "flex",
         justifyContent: "center",

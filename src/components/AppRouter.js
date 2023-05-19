@@ -3,7 +3,7 @@ import { Route, Routes ,Navigate,useLocation} from "react-router-dom";
 import { Context } from "..";
 
 const Login=React.lazy(()=>import('../components/Login'))
-const Chat=React.lazy(()=>import('../components/Chat'))
+const Chat=React.lazy(()=>import('./Chat/Chat'))
 
 
 const AppRouter=()=>{
