@@ -1,8 +1,8 @@
 import React,{ useContext } from "react";
 import { Route, Routes ,Navigate,useLocation} from "react-router-dom";
-import { Context } from "..";
+import { Context } from "../indexData";
 
-const Login=React.lazy(()=>import('../components/Login'))
+const Login=React.lazy(()=>import('./Login/Login'))
 const Chat=React.lazy(()=>import('./Chat/Chat'))
 
 

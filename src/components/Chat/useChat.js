@@ -1,12 +1,12 @@
 
 import { getDatabase, ref, onValue} from "firebase/database";
-import { Context } from "../..";
-import { useRef, useContext, useEffect, useState} from "react";
+import { Context } from "../../indexData";
+import {  useContext, useEffect, useState} from "react";
 
 
 export default function useChat(Scroll,mainUseEffectTrigger){
     const [chatData,setChatData]=useState();
-    const {auth,firebaseApp}=useContext(Context);
+    const {firebaseApp}=useContext(Context);
 
     const starCountRef = ref(getDatabase(firebaseApp), 'messages/');
 
@@ -16,6 +16,7 @@ export default function useChat(Scroll,mainUseEffectTrigger){
             if(data){
             data[data.length-1]['last']=true;
             setChatData(data);
+            scroller();
             }
         });
     }
@@ -34,6 +35,10 @@ export default function useChat(Scroll,mainUseEffectTrigger){
         useEffect(()=>{
             bodyChat();
             },[mainUseEffectTrigger])
+
+        useEffect(()=>{
+            scroller();
+        },[chatData])
     
 
     return {chatData};

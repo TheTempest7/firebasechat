@@ -1,11 +1,10 @@
 import React from "react";
-import { useRef, useContext, useEffect, useState} from "react";
-import { Context } from "../..";
+import { useRef, useContext, useState} from "react";
+import { Context } from "../../indexData.js";
 import { Button ,Box,  Paper,  Container,} from "@mui/material";
 import { signOut } from "firebase/auth";
 import { TextInput } from "../TextInput/TextInput.js";
 import { MessageLeft, MessageRight } from "../Message/Message";
-import { getDatabase, ref, onValue} from "firebase/database";
 import { motion } from "framer-motion";
 import {styles} from './styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -15,12 +14,12 @@ const Chat= ()=>{
   const [mainUseEffectTrigger,setThisTrigger]=useState(0);
   const Scroll=useRef();
 
-  const {chatData,setChatData}=useChat(Scroll,mainUseEffectTrigger);
+  const {chatData}=useChat(Scroll,mainUseEffectTrigger);
 
   const middle = useMediaQuery('(max-width:480px) and (min-width:360px)');
   const extraSmall=useMediaQuery('(max-width:359px)');
 
-  const {auth,firebaseApp}=useContext(Context);
+  const {auth}=useContext(Context);
 
 
 

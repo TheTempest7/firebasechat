@@ -4,7 +4,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { useContext } from "react";
-import { Context } from "../..";
+import { Context } from "../../indexData";
 import { useLocation } from "react-router-dom";
 import {styles} from './styles';
 
